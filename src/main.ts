@@ -5,18 +5,23 @@ import { UpgradeScripts } from './upgrades.js'
 import { UpdateActions } from './actions.js'
 import { UpdateFeedbacks } from './feedbacks.js'
 
-export class ModuleInstance extends InstanceBase<ModuleConfig> {
+import { api } from './airtable.js'
+
+export class AirtableInstance extends InstanceBase<ModuleConfig> {
+	public readonly api
 	config!: ModuleConfig // Setup in init()
 
 	constructor(internal: unknown) {
 		super(internal)
+		this.api = new api(this)
 	}
 
 	async init(config: ModuleConfig): Promise<void> {
 		this.config = config
 
-		this.updateStatus(InstanceStatus.Ok)
-
+		this.updateStatus(InstanceStatus.Connecting)
+		this.api.testConnection()
+		void this.api.getRecords() // Fetch records to initialize
 		this.updateActions() // export actions
 		this.updateFeedbacks() // export feedbacks
 		this.updateVariableDefinitions() // export variable definitions
@@ -48,4 +53,4 @@ export class ModuleInstance extends InstanceBase<ModuleConfig> {
 	}
 }
 
-runEntrypoint(ModuleInstance, UpgradeScripts)
+runEntrypoint(AirtableInstance, UpgradeScripts)

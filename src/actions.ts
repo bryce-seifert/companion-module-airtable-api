@@ -1,21 +1,42 @@
-import type { ModuleInstance } from './main.js'
+import type { AirtableInstance } from './main.js'
 
-export function UpdateActions(self: ModuleInstance): void {
+export function UpdateActions(self: AirtableInstance): void {
 	self.setActionDefinitions({
 		sample_action: {
-			name: 'My First Action',
+			name: 'Create Record',
 			options: [
 				{
-					id: 'num',
-					type: 'number',
-					label: 'Test',
-					default: 5,
-					min: 0,
-					max: 100,
+					id: 'tableName',
+					type: 'textinput',
+					label: 'Table Name',
+					default: 'Table 1', // Default table name
+					useVariables: true, // Allow custom table names
+				},
+				{
+					id: 'fields',
+					type: 'textinput',
+					label: 'Record Fields (JSON Formatted)',
+					default: '{"Name": "New Record"}',
+					useVariables: true,
 				},
 			],
-			callback: async (event) => {
-				console.log('Hello world!', event.options.num)
+			callback: async (action, context) => {
+				if (typeof action.options.tableName !== 'string') {
+					self.log('error', 'Invalid table name')
+					return
+				}
+
+				const tableName = await context.parseVariablesInString(action.options.tableName)
+
+				if (typeof action.options.fields !== 'string') {
+					self.log('error', 'Invalid record info')
+					return
+				}
+
+				let fields = await context.parseVariablesInString(action.options.fields)
+				fields = JSON.parse(fields)
+
+				void self.api.createRecord(tableName, fields)
 			},
 		},
 	})

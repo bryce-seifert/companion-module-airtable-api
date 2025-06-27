@@ -1,9 +1,9 @@
-import type { ModuleInstance } from './main.js'
+import type { AirtableInstance } from './main.js'
 
-export function UpdateVariableDefinitions(self: ModuleInstance): void {
+export function UpdateVariableDefinitions(self: AirtableInstance): void {
 	self.setVariableDefinitions([
-		{ variableId: 'variable1', name: 'My first variable' },
+		/* 	{ variableId: 'variable1', name: 'My first variable' },
 		{ variableId: 'variable2', name: 'My second variable' },
-		{ variableId: 'variable3', name: 'Another variable' },
+		{ variableId: 'variable3', name: 'Another variable' }, */
 	])
 }

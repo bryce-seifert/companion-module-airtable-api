@@ -1,33 +1,37 @@
-import { combineRgb } from '@companion-module/base'
-import type { ModuleInstance } from './main.js'
+import type { AirtableInstance } from './main.js'
 
-export function UpdateFeedbacks(self: ModuleInstance): void {
+export function UpdateFeedbacks(self: AirtableInstance): void {
 	self.setFeedbackDefinitions({
-		ChannelState: {
-			name: 'Example Feedback',
+		/* recordFieldMatch: {
+			name: 'Record Field Match',
 			type: 'boolean',
 			defaultStyle: {
 				bgcolor: combineRgb(255, 0, 0),
 				color: combineRgb(0, 0, 0),
 			},
 			options: [
+			{
+					id: 'tableName',
+					type: 'textinput',
+					label: 'Table Name',
+					default: 'Table 1', // Default table name
+					useVariables: true, // Allow custom table names
+				},
 				{
-					id: 'num',
-					type: 'number',
-					label: 'Test',
-					default: 5,
-					min: 0,
-					max: 10,
+					id: 'recordURL',
+					type: 'textinput',
+					label: 'Record URL',
+					default: '', // Default record URL
+					useVariables: true, // Allow custom record URLs
 				},
 			],
 			callback: (feedback) => {
-				console.log('Hello world!', feedback.options.num)
 				if (Number(feedback.options.num) > 5) {
 					return true
 				} else {
 					return false
 				}
 			},
-		},
+		}, */
 	})
 }
