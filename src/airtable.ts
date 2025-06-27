@@ -69,13 +69,6 @@ export class api {
 			.select()
 			.all()
 			.then((records) => {
-				console.log('Retrieved records')
-				console.log('debug', `Retrieved ${records.length} records`)
-				records.forEach((record) => {
-					console.log(`Record ID: ${record.id}, Fields: ${JSON.stringify(record.fields)}`)
-				})
-				// Optionally, you can return the records or process them further
-				//console.log(records)
 				return records
 			})
 			.catch((error) => {
